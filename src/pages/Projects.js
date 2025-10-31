@@ -5,6 +5,14 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
+      title: 'AI-Powered Interview Preparation Platform',
+      description: 'Developed a full-stack web application using React.js, Node.js, Express.js, and MongoDB to help users practice technical and HR interviews with AI-powered feedback. Integrated OpenAI GPT API for real-time answer evaluation and personalized suggestions.',
+      image: 'https://via.placeholder.com/400x250/6366F1/FFFFFF?text=AI+Interview+Platform',
+      github: 'https://github.com/sarumaliniRanjan/AI-Powered-Interview-Preparation-Platform',
+      technologies: ['React', 'Node.js', 'MongoDB', 'OpenAI API', 'JWT', 'TailwindCSS']
+    },
+    {
+      id: 2,
       title: 'E-Commerce Platform',
       description: 'A full-stack e-commerce application built with React, Node.js, and MongoDB. Features include user authentication, shopping cart, and payment integration.',
       image: 'https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=E-Commerce+Platform',
@@ -12,7 +20,7 @@ const Projects = () => {
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe']
     },
     {
-      id: 2,
+      id: 3,
       title: 'Task Management App',
       description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
       image: 'https://via.placeholder.com/400x250/10B981/FFFFFF?text=Task+Manager',
@@ -20,7 +28,7 @@ const Projects = () => {
       technologies: ['React', 'Firebase', 'Material-UI', 'Socket.io']
     },
     {
-      id: 3,
+      id: 4,
       title: 'Weather Dashboard',
       description: 'A responsive weather application that provides current weather conditions and forecasts using OpenWeatherMap API with beautiful visualizations.',
       image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Weather+App',
@@ -28,7 +36,7 @@ const Projects = () => {
       technologies: ['React', 'Chart.js', 'OpenWeather API', 'TailwindCSS']
     },
     {
-      id: 4,
+      id: 5,
       title: 'Social Media Dashboard',
       description: 'A comprehensive social media analytics dashboard with data visualization, user engagement metrics, and content management features.',
       image: 'https://via.placeholder.com/400x250/8B5CF6/FFFFFF?text=Social+Dashboard',
@@ -36,7 +44,7 @@ const Projects = () => {
       technologies: ['React', 'D3.js', 'Express.js', 'PostgreSQL']
     },
     {
-      id: 5,
+      id: 6,
       title: 'Recipe Finder App',
       description: 'A recipe discovery application that helps users find recipes based on ingredients, dietary preferences, and cooking time.',
       image: 'https://via.placeholder.com/400x250/EF4444/FFFFFF?text=Recipe+Finder',
@@ -44,7 +52,7 @@ const Projects = () => {
       technologies: ['React', 'Spoonacular API', 'Redux', 'Styled Components']
     },
     {
-      id: 6,
+      id: 7,
       title: 'Portfolio Website',
       description: 'A modern, responsive portfolio website showcasing projects and skills with smooth animations and interactive elements.',
       image: 'https://via.placeholder.com/400x250/06B6D4/FFFFFF?text=Portfolio+Site',
