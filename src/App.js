@@ -13,6 +13,8 @@ function App() {
 
   useEffect(() => {
     let isScrolling = false;
+    let touchStartY = 0;
+    let touchEndY = 0;
     
     const handleWheel = (e) => {
       const target = e.target.closest('.overflow-y-auto');
@@ -36,9 +38,50 @@ function App() {
       }
     };
 
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const target = e.target.closest('.overflow-y-auto');
+      if (target) return;
+      e.preventDefault();
+    };
+
+    const handleTouchEnd = (e) => {
+      const target = e.target.closest('.overflow-y-auto');
+      if (target) return;
+      
+      touchEndY = e.changedTouches[0].clientY;
+      const swipeDistance = touchStartY - touchEndY;
+      
+      if (isScrolling) return;
+      
+      if (Math.abs(swipeDistance) > 50) {
+        if (swipeDistance > 0 && currentSection < sections.length - 1) {
+          isScrolling = true;
+          setCurrentSection(prev => prev + 1);
+          setTimeout(() => { isScrolling = false; }, 500);
+        } else if (swipeDistance < 0 && currentSection > 0) {
+          isScrolling = true;
+          setCurrentSection(prev => prev - 1);
+          setTimeout(() => { isScrolling = false; }, 500);
+        }
+      }
+    };
+
     document.addEventListener('wheel', handleWheel, { passive: false });
-    return () => document.removeEventListener('wheel', handleWheel);
-  }, [currentSection]);
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [currentSection, sections.length]);
 
   const renderSection = () => {
     switch(currentSection) {
@@ -52,17 +95,39 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App relative">
       <Navbar currentSection={currentSection} setCurrentSection={setCurrentSection} />
+      
+      {/* Section Indicators */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 hidden md:flex flex-col space-y-2">
+        {sections.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSection(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              currentSection === index ? 'bg-orange-500 scale-125' : 'bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to section ${index + 1}`}
+          />
+        ))}
+      </div>
+
       <motion.div
         key={currentSection}
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
       >
         {renderSection()}
       </motion.div>
+      
+      {/* Mobile Navigation Hint */}
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
+        <div className="bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+          Swipe up/down to navigate
+        </div>
+      </div>
     </div>
   );
 }
