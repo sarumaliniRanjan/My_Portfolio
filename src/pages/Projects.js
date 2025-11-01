@@ -14,6 +14,14 @@ const Projects = () => {
 
     {
       id: 2,
+      title: 'SMS Spam Detection System',
+      description: 'Developed an AI-powered web application that classifies SMS messages as spam or legitimate using machine learning with 99% accuracy and real-time text processing. Built with modern UI featuring baby blue theme, interactive dashboard, confidence scoring, and comprehensive error handling.',
+      image: 'https://via.placeholder.com/400x250/87CEEB/FFFFFF?text=SMS+Spam+Detection',
+      github: 'https://github.com/sarumaliniRanjan/AICTE_INTERNSHIP',
+      technologies: ['Python', 'Streamlit', 'Scikit-learn', 'NLTK', 'TF-IDF', 'Pandas']
+    },
+    {
+      id: 3,
       title: 'Cryptocurrency View Dashboard',
       description: 'A responsive React.js web application that displays real-time cryptocurrency market data with interactive coin listings and detailed price analytics. Built with React 17, Axios for API calls, CSS3 for styling, and deployed on Netlify with live market tracking functionality.',
       image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Crypto+Dashboard',
@@ -21,15 +29,15 @@ const Projects = () => {
       technologies: ['React 17', 'Axios', 'CSS3', 'Netlify', 'Crypto API']
     },
     {
-      id: 3,
+      id: 4,
       title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
+      description: 'A professional, full-featured task management web application with dashboard analytics, kanban board, calendar view, and user authentication. Features include drag-and-drop task organization, real-time filtering, priority management, and responsive design with dark/light themes.',
       image: 'https://via.placeholder.com/400x250/10B981/FFFFFF?text=Task+Manager',
-      github: 'https://github.com/yourusername/task-manager',
-      technologies: ['React', 'Firebase', 'Material-UI', 'Socket.io']
+      github: 'https://github.com/sarumaliniRanjan/Task_Management_App',
+      technologies: ['React 19', 'TypeScript', 'Material-UI v5', 'React Query', 'Vite', 'Jest']
     },
     {
-      id: 4,
+      id: 5,
       title: 'Weather Dashboard',
       description: 'A responsive weather dashboard web application built with HTML5, CSS3, JavaScript, and Bootstrap 5, featuring real-time weather data from OpenWeatherMap API with glassmorphism design, smooth animations, and 5-day forecast display.',
       image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Weather+App',
@@ -39,7 +47,7 @@ const Projects = () => {
 
 
     {
-      id: 5,
+      id: 6,
       title: 'Portfolio Website',
       description: 'A modern, responsive portfolio website showcasing projects and skills with smooth animations and interactive elements.',
       image: 'https://via.placeholder.com/400x250/06B6D4/FFFFFF?text=Portfolio+Site',
@@ -154,7 +162,7 @@ const Projects = () => {
             Want to see more of my work?
           </p>
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/sarumaliniRanjan"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-900 transition-colors duration-300"
