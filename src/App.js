@@ -17,8 +17,30 @@ function App() {
     let touchEndY = 0;
     
     const handleWheel = (e) => {
-      const target = e.target.closest('.overflow-y-auto');
-      if (target) return;
+      const scrollableContainer = e.target.closest('.overflow-y-auto');
+      
+      if (scrollableContainer) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
+        const isAtTop = scrollTop === 0;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+        
+        if (e.deltaY > 30 && isAtBottom && currentSection < sections.length - 1) {
+          e.preventDefault();
+          if (!isScrolling) {
+            isScrolling = true;
+            setCurrentSection(prev => prev + 1);
+            setTimeout(() => { isScrolling = false; }, 500);
+          }
+        } else if (e.deltaY < -30 && isAtTop && currentSection > 0) {
+          e.preventDefault();
+          if (!isScrolling) {
+            isScrolling = true;
+            setCurrentSection(prev => prev - 1);
+            setTimeout(() => { isScrolling = false; }, 500);
+          }
+        }
+        return;
+      }
       
       e.preventDefault();
       if (isScrolling) return;
@@ -43,30 +65,44 @@ function App() {
     };
 
     const handleTouchMove = (e) => {
-      const target = e.target.closest('.overflow-y-auto');
-      if (target) return;
-      e.preventDefault();
+      const scrollableContainer = e.target.closest('.overflow-y-auto');
+      if (!scrollableContainer) {
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = (e) => {
-      const target = e.target.closest('.overflow-y-auto');
-      if (target) return;
-      
+      const scrollableContainer = e.target.closest('.overflow-y-auto');
       touchEndY = e.changedTouches[0].clientY;
       const swipeDistance = touchStartY - touchEndY;
       
-      if (isScrolling) return;
+      if (isScrolling || Math.abs(swipeDistance) < 50) return;
       
-      if (Math.abs(swipeDistance) > 50) {
-        if (swipeDistance > 0 && currentSection < sections.length - 1) {
+      if (scrollableContainer) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
+        const isAtTop = scrollTop === 0;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+        
+        if (swipeDistance > 0 && isAtBottom && currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
           setTimeout(() => { isScrolling = false; }, 500);
-        } else if (swipeDistance < 0 && currentSection > 0) {
+        } else if (swipeDistance < 0 && isAtTop && currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
           setTimeout(() => { isScrolling = false; }, 500);
         }
+        return;
+      }
+      
+      if (swipeDistance > 0 && currentSection < sections.length - 1) {
+        isScrolling = true;
+        setCurrentSection(prev => prev + 1);
+        setTimeout(() => { isScrolling = false; }, 500);
+      } else if (swipeDistance < 0 && currentSection > 0) {
+        isScrolling = true;
+        setCurrentSection(prev => prev - 1);
+        setTimeout(() => { isScrolling = false; }, 500);
       }
     };
 
