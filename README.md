@@ -1,4 +1,4 @@
-# Saru Malinda - Personal Portfolio
+# Saru Malini- Personal Portfolio
 
 A modern, responsive portfolio website built with React, JavaScript, and Tailwind CSS.
 
