@@ -11,13 +11,14 @@ const Projects = () => {
       github: 'https://github.com/sarumaliniRanjan/AI-Powered-Interview-Preparation-Platform',
       technologies: ['React', 'Node.js', 'MongoDB', 'OpenAI API', 'JWT', 'TailwindCSS']
     },
+
     {
       id: 2,
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce application built with React, Node.js, and MongoDB. Features include user authentication, shopping cart, and payment integration.',
-      image: 'https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=E-Commerce+Platform',
-      github: 'https://github.com/yourusername/ecommerce-platform',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe']
+      title: 'Cryptocurrency View Dashboard',
+      description: 'A responsive React.js web application that displays real-time cryptocurrency market data with interactive coin listings and detailed price analytics. Built with React 17, Axios for API calls, CSS3 for styling, and deployed on Netlify with live market tracking functionality.',
+      image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Crypto+Dashboard',
+      github: 'https://github.com/sarumaliniRanjan/Cryptocurrency_View_DashBoard',
+      technologies: ['React 17', 'Axios', 'CSS3', 'Netlify', 'Crypto API']
     },
     {
       id: 3,
@@ -30,33 +31,19 @@ const Projects = () => {
     {
       id: 4,
       title: 'Weather Dashboard',
-      description: 'A responsive weather application that provides current weather conditions and forecasts using OpenWeatherMap API with beautiful visualizations.',
+      description: 'A responsive weather dashboard web application built with HTML5, CSS3, JavaScript, and Bootstrap 5, featuring real-time weather data from OpenWeatherMap API with glassmorphism design, smooth animations, and 5-day forecast display.',
       image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Weather+App',
-      github: 'https://github.com/yourusername/weather-dashboard',
-      technologies: ['React', 'Chart.js', 'OpenWeather API', 'TailwindCSS']
+      github: 'https://github.com/sarumaliniRanjan/Weather_DashBoard',
+      technologies: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap 5', 'OpenWeatherMap API', 'Glassmorphism UI']
     },
+
+
     {
       id: 5,
-      title: 'Social Media Dashboard',
-      description: 'A comprehensive social media analytics dashboard with data visualization, user engagement metrics, and content management features.',
-      image: 'https://via.placeholder.com/400x250/8B5CF6/FFFFFF?text=Social+Dashboard',
-      github: 'https://github.com/yourusername/social-dashboard',
-      technologies: ['React', 'D3.js', 'Express.js', 'PostgreSQL']
-    },
-    {
-      id: 6,
-      title: 'Recipe Finder App',
-      description: 'A recipe discovery application that helps users find recipes based on ingredients, dietary preferences, and cooking time.',
-      image: 'https://via.placeholder.com/400x250/EF4444/FFFFFF?text=Recipe+Finder',
-      github: 'https://github.com/yourusername/recipe-finder',
-      technologies: ['React', 'Spoonacular API', 'Redux', 'Styled Components']
-    },
-    {
-      id: 7,
       title: 'Portfolio Website',
       description: 'A modern, responsive portfolio website showcasing projects and skills with smooth animations and interactive elements.',
       image: 'https://via.placeholder.com/400x250/06B6D4/FFFFFF?text=Portfolio+Site',
-      github: 'https://github.com/yourusername/portfolio',
+      github: 'https://github.com/sarumaliniRanjan/My_Portfolio',
       technologies: ['React', 'Framer Motion', 'TailwindCSS', 'EmailJS']
     }
   ];
