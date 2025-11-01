@@ -61,41 +61,43 @@ function App() {
     };
 
     const handleTouchStart = (e) => {
-      touchStartY = e.touches[0].clientY;
+      const scrollableContainer = e.target.closest('.overflow-y-auto');
+      if (!scrollableContainer) {
+        touchStartY = e.touches[0].clientY;
+      }
     };
 
     const handleTouchMove = (e) => {
       const scrollableContainer = e.target.closest('.overflow-y-auto');
       if (!scrollableContainer) {
         e.preventDefault();
-      }
-      // Prevent pull-to-refresh on mobile
-      if (e.touches.length === 1 && window.scrollY === 0) {
-        e.preventDefault();
+        // Prevent pull-to-refresh on mobile
+        if (e.touches.length === 1 && window.scrollY === 0) {
+          e.preventDefault();
+        }
       }
     };
 
     const handleTouchEnd = (e) => {
       const scrollableContainer = e.target.closest('.overflow-y-auto');
-      touchEndY = e.changedTouches[0].clientY;
-      const swipeDistance = touchStartY - touchEndY;
       
-      // Increased threshold for less sensitivity and added debouncing
-      if (isScrolling || Math.abs(swipeDistance) < 100) return;
-      
+      // If we're in a scrollable container, don't do page navigation
       if (scrollableContainer) {
         const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
-        const isAtTop = scrollTop <= 10; // Small buffer for better detection
+        const isAtTop = scrollTop <= 10;
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
         
-        // Swipe up (positive distance) = next page
+        touchEndY = e.changedTouches[0].clientY;
+        const swipeDistance = touchStartY - touchEndY;
+        
+        if (isScrolling || Math.abs(swipeDistance) < 100) return;
+        
+        // Only navigate if at boundaries
         if (swipeDistance > 100 && isAtBottom && currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
           setTimeout(() => { isScrolling = false; }, 1200);
-        }
-        // Swipe down (negative distance) = previous page  
-        else if (swipeDistance < -100 && isAtTop && currentSection > 0) {
+        } else if (swipeDistance < -100 && isAtTop && currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
           setTimeout(() => { isScrolling = false; }, 1200);
@@ -103,6 +105,11 @@ function App() {
         return;
       }
       
+      // For non-scrollable areas
+      touchEndY = e.changedTouches[0].clientY;
+      const swipeDistance = touchStartY - touchEndY;
+      
+      if (isScrolling || Math.abs(swipeDistance) < 100) return;
       // For non-scrollable sections
       if (swipeDistance > 100 && currentSection < sections.length - 1) {
         isScrolling = true;
