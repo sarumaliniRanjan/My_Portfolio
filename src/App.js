@@ -76,33 +76,38 @@ function App() {
       touchEndY = e.changedTouches[0].clientY;
       const swipeDistance = touchStartY - touchEndY;
       
-      if (isScrolling || Math.abs(swipeDistance) < 50) return;
+      // Increased threshold for less sensitivity and added debouncing
+      if (isScrolling || Math.abs(swipeDistance) < 100) return;
       
       if (scrollableContainer) {
         const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
-        const isAtTop = scrollTop === 0;
-        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+        const isAtTop = scrollTop <= 10; // Small buffer for better detection
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
         
-        if (swipeDistance > 0 && isAtBottom && currentSection < sections.length - 1) {
+        // Swipe up (positive distance) = next page
+        if (swipeDistance > 100 && isAtBottom && currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
-          setTimeout(() => { isScrolling = false; }, 500);
-        } else if (swipeDistance < 0 && isAtTop && currentSection > 0) {
+          setTimeout(() => { isScrolling = false; }, 800); // Longer delay
+        }
+        // Swipe down (negative distance) = previous page  
+        else if (swipeDistance < -100 && isAtTop && currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
-          setTimeout(() => { isScrolling = false; }, 500);
+          setTimeout(() => { isScrolling = false; }, 800); // Longer delay
         }
         return;
       }
       
-      if (swipeDistance > 0 && currentSection < sections.length - 1) {
+      // For non-scrollable sections
+      if (swipeDistance > 100 && currentSection < sections.length - 1) {
         isScrolling = true;
         setCurrentSection(prev => prev + 1);
-        setTimeout(() => { isScrolling = false; }, 500);
-      } else if (swipeDistance < 0 && currentSection > 0) {
+        setTimeout(() => { isScrolling = false; }, 800);
+      } else if (swipeDistance < -100 && currentSection > 0) {
         isScrolling = true;
         setCurrentSection(prev => prev - 1);
-        setTimeout(() => { isScrolling = false; }, 500);
+        setTimeout(() => { isScrolling = false; }, 800);
       }
     };
 
@@ -160,8 +165,9 @@ function App() {
       
       {/* Mobile Navigation Hint */}
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
-        <div className="bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
-          Swipe up/down to navigate
+        <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-xs text-center">
+          <div>Swipe up: Next page</div>
+          <div>Swipe down: Previous page</div>
         </div>
       </div>
     </div>
