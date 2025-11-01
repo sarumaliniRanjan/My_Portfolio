@@ -14,114 +14,106 @@ function App() {
   useEffect(() => {
     let isScrolling = false;
     let touchStartY = 0;
-    let touchEndY = 0;
+    let touchStartTime = 0;
     
     const handleWheel = (e) => {
       const scrollableContainer = e.target.closest('.overflow-y-auto');
       
       if (scrollableContainer) {
         const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
-        const isAtTop = scrollTop === 0;
+        const isAtTop = scrollTop <= 5;
         const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
         
-        if (e.deltaY > 30 && isAtBottom && currentSection < sections.length - 1) {
+        if (e.deltaY > 50 && isAtBottom && currentSection < sections.length - 1) {
           e.preventDefault();
           if (!isScrolling) {
             isScrolling = true;
             setCurrentSection(prev => prev + 1);
-            setTimeout(() => { isScrolling = false; }, 1200);
+            setTimeout(() => { isScrolling = false; }, 1000);
           }
-        } else if (e.deltaY < -30 && isAtTop && currentSection > 0) {
+        } else if (e.deltaY < -50 && isAtTop && currentSection > 0) {
           e.preventDefault();
           if (!isScrolling) {
             isScrolling = true;
             setCurrentSection(prev => prev - 1);
-            setTimeout(() => { isScrolling = false; }, 1200);
+            setTimeout(() => { isScrolling = false; }, 1000);
           }
         }
         return;
       }
       
+      // For non-scrollable sections
       e.preventDefault();
       if (isScrolling) return;
       
-      if (e.deltaY > 30) {
-        if (currentSection < sections.length - 1) {
-          isScrolling = true;
-          setCurrentSection(prev => prev + 1);
-          setTimeout(() => { isScrolling = false; }, 1200);
-        }
-      } else if (e.deltaY < -30) {
-        if (currentSection > 0) {
-          isScrolling = true;
-          setCurrentSection(prev => prev - 1);
-          setTimeout(() => { isScrolling = false; }, 1200);
-        }
+      if (e.deltaY > 50 && currentSection < sections.length - 1) {
+        isScrolling = true;
+        setCurrentSection(prev => prev + 1);
+        setTimeout(() => { isScrolling = false; }, 1000);
+      } else if (e.deltaY < -50 && currentSection > 0) {
+        isScrolling = true;
+        setCurrentSection(prev => prev - 1);
+        setTimeout(() => { isScrolling = false; }, 1000);
       }
     };
 
     const handleTouchStart = (e) => {
-      const scrollableContainer = e.target.closest('.overflow-y-auto');
-      if (!scrollableContainer) {
-        touchStartY = e.touches[0].clientY;
-      }
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
     };
 
     const handleTouchMove = (e) => {
       const scrollableContainer = e.target.closest('.overflow-y-auto');
       if (!scrollableContainer) {
         e.preventDefault();
-        // Prevent pull-to-refresh on mobile
-        if (e.touches.length === 1 && window.scrollY === 0) {
-          e.preventDefault();
-        }
       }
     };
 
     const handleTouchEnd = (e) => {
+      if (isScrolling) return;
+      
+      const touchEndY = e.changedTouches[0].clientY;
+      const touchEndTime = Date.now();
+      const swipeDistance = touchStartY - touchEndY;
+      const swipeTime = touchEndTime - touchStartTime;
+      
+      // Only process quick swipes with sufficient distance
+      if (swipeTime > 500 || Math.abs(swipeDistance) < 80) return;
+      
       const scrollableContainer = e.target.closest('.overflow-y-auto');
       
-      // If we're in a scrollable container, don't do page navigation
       if (scrollableContainer) {
         const { scrollTop, scrollHeight, clientHeight } = scrollableContainer;
-        const isAtTop = scrollTop <= 10;
-        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+        const isAtTop = scrollTop <= 5;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
         
-        touchEndY = e.changedTouches[0].clientY;
-        const swipeDistance = touchStartY - touchEndY;
-        
-        if (isScrolling || Math.abs(swipeDistance) < 100) return;
-        
-        // Only navigate if at boundaries
-        if (swipeDistance > 100 && isAtBottom && currentSection < sections.length - 1) {
+        // Swipe up (positive distance) = next section
+        if (swipeDistance > 80 && isAtBottom && currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
-          setTimeout(() => { isScrolling = false; }, 1200);
-        } else if (swipeDistance < -100 && isAtTop && currentSection > 0) {
+          setTimeout(() => { isScrolling = false; }, 1000);
+        }
+        // Swipe down (negative distance) = previous section
+        else if (swipeDistance < -80 && isAtTop && currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
-          setTimeout(() => { isScrolling = false; }, 1200);
+          setTimeout(() => { isScrolling = false; }, 1000);
         }
-        return;
-      }
-      
-      // For non-scrollable areas
-      touchEndY = e.changedTouches[0].clientY;
-      const swipeDistance = touchStartY - touchEndY;
-      
-      if (isScrolling || Math.abs(swipeDistance) < 100) return;
-      // For non-scrollable sections
-      if (swipeDistance > 100 && currentSection < sections.length - 1) {
-        isScrolling = true;
-        setCurrentSection(prev => prev + 1);
-        setTimeout(() => { isScrolling = false; }, 1200);
-      } else if (swipeDistance < -100 && currentSection > 0) {
-        isScrolling = true;
-        setCurrentSection(prev => prev - 1);
-        setTimeout(() => { isScrolling = false; }, 1200);
+      } else {
+        // For non-scrollable sections (Home, About, Skills)
+        if (swipeDistance > 80 && currentSection < sections.length - 1) {
+          isScrolling = true;
+          setCurrentSection(prev => prev + 1);
+          setTimeout(() => { isScrolling = false; }, 1000);
+        } else if (swipeDistance < -80 && currentSection > 0) {
+          isScrolling = true;
+          setCurrentSection(prev => prev - 1);
+          setTimeout(() => { isScrolling = false; }, 1000);
+        }
       }
     };
 
+    // Add event listeners
     document.addEventListener('wheel', handleWheel, { passive: false });
     document.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -150,7 +142,7 @@ function App() {
     <div className="App relative">
       <Navbar currentSection={currentSection} setCurrentSection={setCurrentSection} />
       
-      {/* Section Indicators */}
+      {/* Section Indicators - Desktop Only */}
       <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 hidden md:flex flex-col space-y-2">
         {sections.map((_, index) => (
           <button
@@ -164,17 +156,16 @@ function App() {
         ))}
       </div>
 
+      {/* Main Content with Smooth Transitions */}
       <motion.div
         key={currentSection}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
       >
         {renderSection()}
       </motion.div>
-      
-
     </div>
   );
 }
