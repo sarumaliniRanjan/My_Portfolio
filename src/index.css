@@ -14,11 +14,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 html {
   scroll-behavior: smooth;
   height: 100%;
+  overscroll-behavior: none;
 }
 
 body {

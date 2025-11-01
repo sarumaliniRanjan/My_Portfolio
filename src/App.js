@@ -69,6 +69,10 @@ function App() {
       if (!scrollableContainer) {
         e.preventDefault();
       }
+      // Prevent pull-to-refresh on mobile
+      if (e.touches.length === 1 && window.scrollY === 0) {
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = (e) => {
@@ -163,13 +167,7 @@ function App() {
         {renderSection()}
       </motion.div>
       
-      {/* Mobile Navigation Hint */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
-        <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-xs text-center">
-          <div>Swipe up: Next page</div>
-          <div>Swipe down: Previous page</div>
-        </div>
-      </div>
+
     </div>
   );
 }
