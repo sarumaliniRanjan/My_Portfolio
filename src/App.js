@@ -29,14 +29,14 @@ function App() {
           if (!isScrolling) {
             isScrolling = true;
             setCurrentSection(prev => prev + 1);
-            setTimeout(() => { isScrolling = false; }, 500);
+            setTimeout(() => { isScrolling = false; }, 1200);
           }
         } else if (e.deltaY < -30 && isAtTop && currentSection > 0) {
           e.preventDefault();
           if (!isScrolling) {
             isScrolling = true;
             setCurrentSection(prev => prev - 1);
-            setTimeout(() => { isScrolling = false; }, 500);
+            setTimeout(() => { isScrolling = false; }, 1200);
           }
         }
         return;
@@ -49,13 +49,13 @@ function App() {
         if (currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
-          setTimeout(() => { isScrolling = false; }, 500);
+          setTimeout(() => { isScrolling = false; }, 1200);
         }
       } else if (e.deltaY < -30) {
         if (currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
-          setTimeout(() => { isScrolling = false; }, 500);
+          setTimeout(() => { isScrolling = false; }, 1200);
         }
       }
     };
@@ -92,13 +92,13 @@ function App() {
         if (swipeDistance > 100 && isAtBottom && currentSection < sections.length - 1) {
           isScrolling = true;
           setCurrentSection(prev => prev + 1);
-          setTimeout(() => { isScrolling = false; }, 800); // Longer delay
+          setTimeout(() => { isScrolling = false; }, 1200);
         }
         // Swipe down (negative distance) = previous page  
         else if (swipeDistance < -100 && isAtTop && currentSection > 0) {
           isScrolling = true;
           setCurrentSection(prev => prev - 1);
-          setTimeout(() => { isScrolling = false; }, 800); // Longer delay
+          setTimeout(() => { isScrolling = false; }, 1200);
         }
         return;
       }
@@ -107,11 +107,11 @@ function App() {
       if (swipeDistance > 100 && currentSection < sections.length - 1) {
         isScrolling = true;
         setCurrentSection(prev => prev + 1);
-        setTimeout(() => { isScrolling = false; }, 800);
+        setTimeout(() => { isScrolling = false; }, 1200);
       } else if (swipeDistance < -100 && currentSection > 0) {
         isScrolling = true;
         setCurrentSection(prev => prev - 1);
-        setTimeout(() => { isScrolling = false; }, 800);
+        setTimeout(() => { isScrolling = false; }, 1200);
       }
     };
 
@@ -162,7 +162,7 @@ function App() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
       >
         {renderSection()}
       </motion.div>
